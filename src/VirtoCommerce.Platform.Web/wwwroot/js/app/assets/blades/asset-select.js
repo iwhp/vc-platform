@@ -4,7 +4,7 @@ angular.module('platformWebApp')
             var blade = $scope.blade;
             blade.template = '$(Platform)/Scripts/app/assets/blades/asset-select.tpl.html';
 
-            blade.headIcon = 'fa-folder-o';
+            blade.headIcon = 'fa fa-folder-o';
 
             if (!blade.currentEntity) {
                 blade.currentEntity = {};
@@ -46,10 +46,7 @@ angular.module('platformWebApp')
                     }
                     blade.breadcrumbs = breadcrumbs;
                 } else {
-                    var name = "all";
-                    if (blade.folder)
-                        name = blade.folder;
-
+                    var name = blade.folder || "platform.blades.asset-list.bread-crumb-top";
                     blade.breadcrumbs = [generateBreadcrumb(blade.currentEntity.url, name)];
                 }
             }

@@ -8,6 +8,7 @@ angular.module('platformWebApp')
                 transclude: true,
                 scope: {
                     languages: "=",
+                    hiddenLanguages: "=",
                     getDictionaryValues: "&"
                 },
                 link: function (scope, element, attr, ngModelController, linker) {
@@ -113,6 +114,8 @@ angular.module('platformWebApp')
                             case 'Json':
                                 result = 'dCode';
                                 break;
+                            case 'PositiveInteger':
+                                return 'dPositiveInteger.html';
                             default:
                                 result = 'd' + property.valueType;
                         }
@@ -233,6 +236,16 @@ angular.module('platformWebApp')
 
                     scope.openUrl = function (url) {
                         window.open(url, '_blank');
+                    }
+
+                    scope.isLanguageVisible = function (language) {
+                        if (scope.hiddenLanguages) {
+                            if (_.contains(scope.hiddenLanguages, language)) {
+                                return false;
+                            }
+                        }
+
+                        return true;
                     }
                 }
             }

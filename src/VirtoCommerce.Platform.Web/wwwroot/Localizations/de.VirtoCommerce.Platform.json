@@ -17,8 +17,7 @@
       "help" : "hilfe"
     },
     "navigation": {
-      "back": "Zurück",
-      "bread-crumb-top": "Alle"
+      "back": "Zurück"
     },
     "blades": {
         "system-info": {
@@ -124,8 +123,8 @@
         },
         "propertyValue-list": {
             "title": "Eigenschaften Werte",
-            "subtitle": "Eigenschaften bearbeiten Werte",
             "labels": {
+                "header": "Eigenschaften Werte",
                 "no-properties": "Diese Einheit hat keine dynamischen Eigenschaften haben. Verwalten klicken Sie auf Eigenschaften und einige Eigenschaften erstellen. Schließen und aktuelle Einheit Ansicht öffnen dynamische Eigenschaften geladen zu erhalten."
             }
         },
@@ -136,8 +135,7 @@
                 "platform-entries": "Plattform Einträge",
                 "choose-modules": "Module wählen Sie exportieren",
                 "download-url": "URL herunterladen",
-                "errors": "Fehler",
-                "start-export": "Export starten",
+                "errors": "Fehler",                
                 "start": "Starten",
                 "end": "Ende"
             },
@@ -325,11 +323,11 @@
                 "repeat-password": "Das neue Passwort stimmt nicht überein!",
                 "invalid-token": "Passwort zurücksetzen Token ist ungültig oder abgelaufen",
                 "password-too-weak": "Neues Passwort entspricht nicht einer oder mehreren Passwortsicherheitsrichtlinien:",
-                "passwordViolatesMinLength": "Passwörter müssen {{minPasswordLength}} oder mehr Zeichen lang sein",
-                "passwordMustHaveLowerCaseLetters": "Passwörter müssen mindestens einen Kleinbuchstaben enthalten ('a'-'z')",
-                "passwordMustHaveUpperCaseLetters": "Passwörter müssen mindestens einen Großbuchstaben haben ('A'-'Z')",
-                "passwordMustHaveDigits": "Passwörter müssen mindestens eine Ziffer haben ('0'-'9')",
-                "passwordMustHaveSpecialCharacters": "Passwörter müssen mindestens ein nicht alphanumerisches Zeichen enthalten"
+                "passwordTooShort": "Passwörter müssen {{errorParameter}} oder mehr Zeichen lang sein",
+                "passwordRequiresLower": "Passwörter müssen mindestens einen Kleinbuchstaben enthalten ('a'-'z')",
+                "passwordRequiresUpper": "Passwörter müssen mindestens einen Großbuchstaben haben ('A'-'Z')",
+                "passwordRequiresDigit": "Passwörter müssen mindestens eine Ziffer haben ('0'-'9')",
+                "passwordRequiresNonAlphanumeric": "Passwörter müssen mindestens ein nicht alphanumerisches Zeichen enthalten"
             },
             "placeholders": {
                 "current-password": "Aktuelles Passwort eingeben",
@@ -524,7 +522,8 @@
             "title": "Modul Einstellungen"
         },
         "settingGroup-list": {
-            "title": "Einstellungen"
+            "title": "Einstellungen",
+            "bread-crumb-top": "Alle"
         },
         "user-profile": {
             "title": "User Profil",

@@ -1,4 +1,4 @@
-﻿angular.module('platformWebApp')
+angular.module('platformWebApp')
     .config(['$provide', 'uiGridConstants', function ($provide, uiGridConstants) {
         $provide.decorator('GridOptions', ['$delegate', '$localStorage', '$translate', 'platformWebApp.bladeNavigationService', function ($delegate, $localStorage, $translate, bladeNavigationService) {
             var gridOptions = angular.copy($delegate);
@@ -44,6 +44,7 @@
                 angular.extend(initOptions, {
                     rowHeight: initOptions.rowHeight === 30 ? 40 : initOptions.rowHeight,
                     enableGridMenu: true,
+                    gridMenuShowHideColumns: false,
                     //enableVerticalScrollbar: uiGridConstants.scrollbars.NEVER,
                     //enableHorizontalScrollbar: uiGridConstants.scrollbars.NEVER,
                     saveFocus: false,
@@ -121,6 +122,31 @@
                     gridOptions.columnDefsGenerated = true;
                     grid.api.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
                 }
+
+                // Add column visibility checkers as custom menu items to have them alphabetically ordered
+                var gridMenuCustomItems = Array(0);
+                _.each(gridOptions.columnDefs, function (x) {
+                    gridMenuCustomItems.push({
+                        title: $translate.instant(x.displayName ? x.displayName : toSentenceCase(x.name)),
+                        colName: x.name,
+                        icon: (x.visible === undefined || x.visible) ? "ui-grid-icon-ok" : "ui-grid-icon-cancel",
+                        leaveOpen: true,
+                        action: function ($event) {
+                            var column = grid.getColDef(x.name);
+                            if (column.enableHiding !== false) {
+                                column.visible = !(column.visible === undefined || column.visible);
+                                var mi = grid.options.gridMenuCustomItems.find(y => y.colName === x.name);
+                                mi.icon = column.visible ? "ui-grid-icon-ok" : "ui-grid-icon-cancel";
+                                grid.api.core.notifyDataChange(uiGridConstants.dataChange.COLUMN); // Inform the grid about changes
+                                grid.api.core.raise.columnVisibilityChanged(); // Fire event to save settings to the local storage
+                            }
+                            grid.refresh();
+                        },
+                    });
+                });
+
+                grid.options.gridMenuCustomItems = _.sortBy(gridMenuCustomItems, "title");
+
             }
 
             // Configure automatic formatting of columns/
@@ -165,6 +191,14 @@
                 if ($scope && $scope.gridApi)
                     $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
             }
+		
+            function toSentenceCase(str)
+            {
+                 // adding space between strings
+                const result = str.replace(/([A-Z])/g,' $1').trim();
+                // converting first character to uppercase and join it to the final string
+                return result.charAt(0).toUpperCase()+result.slice(1);
+            }
 
             return gridOptions;
         }]);
@@ -175,6 +209,8 @@
         retVal.uiGridConstants = uiGridConstants;
         retVal.initialize = function ($scope, gridOptions, externalRegisterApiCallback) {
             $scope.gridOptions = angular.extend({
+                enableVerticalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
+                enableHorizontalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
                 data: _.any(gridOptions.data) ? gridOptions.data : 'blade.currentEntities',
                 onRegisterApi: function (gridApi) {
                     if (externalRegisterApiCallback) {

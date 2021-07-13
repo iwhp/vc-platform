@@ -49,28 +49,28 @@ angular.module('platformWebApp')
                 url: '/forgotpassword',
                 templateUrl: '$(Platform)/Scripts/app/security/dialogs/forgotPasswordDialog.tpl.html',
                 controller: ['$rootScope', '$scope', 'platformWebApp.authService', '$state', function ($rootScope, $scope, authService, $state) {
-                        $scope.viewModel = {};
-                        $rootScope.preventLoginDialog = false;
-                        $scope.ok = function () {
-                            $scope.isLoading = true;
-                            $scope.errorMessage = null;
-                            authService.requestpasswordreset($scope.viewModel).then(function (retVal) {
-                                $scope.isLoading = false;
-                                $scope.succeeded = true;
-                                angular.extend($scope, retVal);
-                            }, function (response) {
-                                $scope.isLoading = false;
-                                $scope.errorMessage = response.data.message;
-                                if (!$scope.errors) {
-                                    $scope.errors = [];
-                                }
-                                $scope.errors.push(response.data.message);
-                            });
-                        };
-                        $scope.close = function () {
-                            $state.go('loginDialog');
-                        };
-                    }
+                    $scope.viewModel = {};
+                    $rootScope.preventLoginDialog = false;
+                    $scope.ok = function () {
+                        $scope.isLoading = true;
+                        $scope.errorMessage = null;
+                        authService.requestpasswordreset($scope.viewModel).then(function (retVal) {
+                            $scope.isLoading = false;
+                            $scope.succeeded = true;
+                            angular.extend($scope, retVal);
+                        }, function (response) {
+                            $scope.isLoading = false;
+                            $scope.errorMessage = response.data.message;
+                            if (!$scope.errors) {
+                                $scope.errors = [];
+                            }
+                            $scope.errors.push(response.data.message);
+                        });
+                    };
+                    $scope.close = function () {
+                        $state.go('loginDialog');
+                    };
+                }
                 ]
             });
 
@@ -84,7 +84,7 @@ angular.module('platformWebApp')
                 authService.validatepasswordresettoken($scope.viewModel).then(function (retVal) {
                     $scope.isValidToken = retVal;
                     $scope.isLoading = false;
-                    $scope.viewModel = { userId: $scope.viewModel.userId, code: $scope.viewModel.code, newPassword: '', newPassword2: ''}
+                    $scope.viewModel = { userId: $scope.viewModel.userId, code: $scope.viewModel.code, newPassword: '', newPassword2: '' }
                 }, function (response) {
                     $scope.isLoading = false;
                     $scope.errors = response.data.errors;
@@ -120,53 +120,71 @@ angular.module('platformWebApp')
                     bladeNavigationService.showBlade(blade);
                 }
                 ]
-            });
+            })
 
-        $stateProvider.state('changePasswordDialog',
-            {
+            .state('changePasswordDialog', {
                 url: '/changepassword',
                 templateUrl: '$(Platform)/Scripts/app/security/dialogs/changePasswordDialog.tpl.html',
                 params: {
                     onClose: null
                 },
-                controller: ['$q', '$scope', '$stateParams', 'platformWebApp.accounts', 'platformWebApp.authService', 'platformWebApp.passwordValidationService', function ($q, $scope, $stateParams, accounts, authService, passwordValidationService) {
-                    $scope.userName = authService.userName;
-                    if ($scope.userName) {
-                        accounts.get({ id: $scope.userName }, function (user) {
-                            if (!user || !user.passwordExpired) {
-                                $stateParams.onClose();
-                            }
-                        });
-                    }
-
-                    $scope.validatePasswordAsync = function (value) {
-                        return passwordValidationService.validatePasswordAsync(value);
-                    }
-
-                    $scope.postpone = function () {
-                        $stateParams.onClose();
-                    }
-
-                    $scope.ok = function () {
-                        var postData = {
-                            NewPassword: $scope.password
-                        };
-                        accounts.resetCurrentUserPassword(postData, function (data) {
-                            $stateParams.onClose();
-                        }, function (response) {
-                            $scope.errors = response.data.errors;
-                        });
-                    }
-                }]
+                controller: 'platformWebApp.changePasswordDialog'
             });
     }])
-    .run(['$rootScope', 'platformWebApp.mainMenuService', 'platformWebApp.metaFormsService', 'platformWebApp.widgetService', '$state', 'platformWebApp.authService',
-        function ($rootScope, mainMenuService, metaFormsService, widgetService, $state, authService) {
 
+    .controller('platformWebApp.changePasswordDialog', ['$rootScope', '$state', '$scope', '$stateParams', 'platformWebApp.accounts', 'platformWebApp.authService', 'platformWebApp.passwordValidationService', function ($rootScope, $state, $scope, $stateParams, accounts, authService, passwordValidationService) {
+        if (!authService.isAuthenticated) {
+            $state.go('loginDialog');
+        }
+
+        $scope.userName = authService.userName;
+        $scope.canCancel = !authService.passwordExpired;
+
+        $scope.validatePasswordAsync = (value) => {
+            $scope.validatedPassword = value;
+            delete $scope.errors;
+            return passwordValidationService.validatePasswordAsync(value);
+        };
+
+        $scope.cancel = () => {
+            $scope.$dismiss('cancel');
+        };
+
+        $scope.ok = () => {
+            accounts.changeCurrentUserPassword($scope.postData, (result) => {
+                if (result.succeeded) {
+                    authService.passwordExpired = false;
+                    authService.daysTillPasswordExpiry = -1;
+                    $rootScope.$emit('userPasswordChanged', authService);
+
+                    if (angular.isFunction($stateParams.onClose)) {
+                        $stateParams.onClose();
+                    } else if (angular.isFunction($scope.$close)) {
+                        $scope.$close(true);
+                    } else {
+                        // redirect to home page (after initial platform setup)
+                        $state.go('workspace');
+                    }
+                } else {
+                    showErrors(result);
+                }
+            }, (response) => {
+                showErrors(response.data);
+            });
+        };
+
+        var showErrors = (result) => {
+            $scope.postData = {};
+            $scope.errors = result.errors;
+        };
+    }])
+
+    .run(['$transitions', 'platformWebApp.mainMenuService', 'platformWebApp.metaFormsService', 'platformWebApp.widgetService', '$state', 'platformWebApp.authService',
+        function ($transitions, mainMenuService, metaFormsService, widgetService, $state, authService) {
             //Register module in main menu
             var menuItem = {
                 path: 'configuration/security',
-                icon: 'fa fa-key',
+                icon: 'fas fa-key',
                 title: 'platform.menu.security',
                 priority: 5,
                 action: function () { $state.go('workspace.securityModule'); },
@@ -194,14 +212,19 @@ angular.module('platformWebApp')
                         priority: 2
                     },
                     {
+                        name: "status",
+                        templateUrl: "statusSelector.html",
+                        priority: 3
+                    },
+                    {
                         name: "accountType",
                         templateUrl: "accountTypeSelector.html",
-                        priority: 3
+                        priority: 4
                     },
                     {
                         name: "accountInfo",
                         templateUrl: "accountInfo.html",
-                        priority: 4
+                        priority: 5
                     }
                 ]);
 
@@ -218,4 +241,11 @@ angular.module('platformWebApp')
                 controller: 'platformWebApp.accountApiWidgetController',
                 template: '$(Platform)/Scripts/app/security/widgets/accountApiWidget.tpl.html',
             }, 'accountDetail');
+
+            // Prevent transition to workspace if password expired
+            $transitions.onBefore({ to: 'workspace.**' }, function (transition) {
+                if (authService.isAuthenticated && authService.passwordExpired) {
+                    return transition.router.stateService.target('changePasswordDialog');
+                }
+            });
         }]);

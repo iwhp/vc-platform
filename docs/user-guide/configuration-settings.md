@@ -11,6 +11,8 @@ The configuration keys are hierarchical. This structure is most convenient to ma
 |  | E.g., VirtoCommerce.Catalog        | E.g., `Data Source=(local);Initial Catalog=VirtoCommerceCatalog;Persist Security Info=True;User ID=virto;Password=virto; MultipleActiveResultSets=True;Connect Timeout=30` | Other, module-specific connection string(s). E.g., VirtoCommerce.Catalog module would use `VirtoCommerce.Catalog` connection string, if it's defined. |
 | | RedisConnectionString | E.g., `"localhost"` | StackExchange.Redis Configuration string. Check [Redis Configuration](https://stackexchange.github.io/StackExchange.Redis/Configuration) for details.
 | VirtoCommerce |  |  | VC Platform system settings
+|  | CountriesFilePath |`"localization/common/countries.json"` | Local path for countries list. By default, includes all the countries in the world.
+|  | CountryRegionsFilePath |`"localization/common/countriesRegions.json"` | Local path for countries' regions list. By default, includes the states of USA and regions of Canada.
 |  | LicenseActivationUrl |`"https://virtocommerce.com/admin/api/licenses/activate/"` | VC Platform license activation service URL
 |  | LicenseFilePath |      `"App_Data/VirtoCommerce.lic"`                            | VC Platform license file location
 |  | LocalUploadFolderPath | `"App_Data/Uploads"`                                     | Uploads folder location
@@ -23,6 +25,9 @@ The configuration keys are hierarchical. This structure is most convenient to ma
 |  | FileSystem | E.g., <br> "FileSystem": {<br> "RootPath": "~/assets",<br>"PublicUrl": "http://localhost:10645/assets/"<br>} | File system based assets provider configuration. Used, if `"Provider": "FileSystem"`
 |  | AzureBlobStorage | E.g., <br> "AzureBlobStorage": {<br> "ConnectionString": "",<br>"CdnUrl": ""<br>}  | Azure Blob Storage based assets provider configuration. Used, if `"Provider": "AzureBlobStorage"`
 | IdentityOptions | | | Options to configure the ASP&#46;NET Core Identity system. Check [Configure ASP.NET Core Identity](https://github.com/dotnet/AspNetCore.Docs/blob/master/aspnetcore/security/authentication/identity-configuration.md#configure-aspnet-core-identity) for details.
+|  | Password.PasswordHistory | E.g., <br>"PasswordHistory": 4 | The number of recent user's passwords to check during the password validation. Old password can't be reused for this number of cycles.<br>Value of "0" or not defined - password history is disabled.
+|  | User.MaxPasswordAge | "MaxPasswordAge": "0" | TimeSpan defining max. user password age until the password expires. The user is forced to change the expired password on login to Platform Manager UI.<br>Value of "0" or not defined - password expiration is disabled.
+|  | User.RemindPasswordExpiryInDays | "RemindPasswordExpiryInDays": 7  | Number of days to start showing password expiry warning in Platform Manager UI. Used, if password expiration is enabled. 
 | ExternalModules | | | Configure external source to install modules.
 |  | IncludePrerelease | `false` | Show module versions marked as *Prerelease* if value is `true`.
 |  | ModulesManifestUrl | E.g., `"https://raw.githubusercontent.com/VirtoCommerce/vc-modules/master/modules_v3.json"` | Url to *.json* file containing modules' manifests.

@@ -7,6 +7,7 @@ angular.module('platformWebApp')
             var canUpdate = _.any(moduleHelper.allmodules, function (x) {
                 return x.id === blade.currentEntity.id && !x.isInstalled;
             });
+
             blade.toolbarCommands = [
                 {
                     name: "platform.commands.update", icon: 'fa fa-upload',
@@ -18,7 +19,7 @@ angular.module('platformWebApp')
                     permission: 'platform:module:manage'
                 },
                 {
-                    name: "platform.commands.uninstall", icon: 'fa fa-trash-o',
+                    name: "platform.commands.uninstall", icon: 'fas fa-trash-alt',
                     executeMethod: function () {
                         $scope.confirmActionInDialog('uninstall');
                     },
@@ -134,7 +135,7 @@ angular.module('platformWebApp')
         });
     };
 
-    blade.headIcon = 'fa-cubes';
+    blade.headIcon = 'fa fa-cubes';
 
     if (blade.mode === 'advanced') {
         // the uploader

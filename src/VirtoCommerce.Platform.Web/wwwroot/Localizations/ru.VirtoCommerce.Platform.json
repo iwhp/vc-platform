@@ -17,8 +17,7 @@
             "help": "Помощь"
         },
         "navigation": {
-            "back": "Назад",
-            "bread-crumb-top": "Все"
+            "back": "Назад"
         },
         "blades": {
             "system-info": {
@@ -122,8 +121,8 @@
             },
             "propertyValue-list": {
                 "title": "Значения свойств",
-                "subtitle": "Редактировать значения свойств",
                 "labels": {
+                    "header": "Значения свойств",
                     "no-properties": "У этого объекта еще нет динамических свойств. Нажмите 'Управление типами свойств' для создания новых. Закройте и откройте повторно текущий объект для загрузки динамических свойств."
                 }
             },
@@ -134,7 +133,6 @@
                     "choose-modules": "Выберите модули для экспорта",
                     "download-url": "Загрузить Url",
                     "errors": "Ошибки",
-                    "start-export": "Начать экспорт",
                     "start": "Начало",
                     "end": "Конец"
                 },
@@ -158,7 +156,11 @@
                 "labels": {
                     "start-import": "Начать импорт",
                     "select-file": "Выберите файл .zip для импорта. Файл должен быть создан путем экспорта данных Commerce Manager.",
+                    "drag-note": "Перетащите файл .zip для импорта. Файл должен быть создан путем экспорта данных Commerce Manager.",
+                    "upload-failed": "Загрузка файла не удалась",
                     "upload-progress": "Прогресс загрузки",
+                    "import-progress": "Процесс импорта",
+                    "import-finished": "Импорт завершён",
                     "import-data-information": "Информация об импорте данных",
                     "author": "Автор",
                     "data-file-created": "Создан файл с данными",
@@ -359,7 +361,8 @@
                     "module": "Модуль",
                     "version": "Версия",
                     "author": "Автор",
-                    "installed": "Установленные модули"
+                    "installed": "Установленные модули",
+                    "manual-install-warning": "Внимание! Ручная установка модулей отключена, поскольку RefreshProbingFolderOnStart установлен в false."
                 }
             },
             "history": {
@@ -409,11 +412,11 @@
                     "repeat-password": "Новые пароли не совпадают!",
                     "invalid-token": "Токен смены пароля некорректен или срок его действия истёк",
                     "password-too-weak": "Новый пароль не удовлетворяет одной или нескольким политикам безопасности паролей:",
-                    "passwordViolatesMinLength": "Длина паролей должна составлять {{minPasswordLength}} или более символов",
-                    "passwordMustHaveLowerCaseLetters": "Пароли должны содержать хотя бы одну строчную букву ('a'-'z')",
-                    "passwordMustHaveUpperCaseLetters": "Пароли должны содержать хотя бы одну заглавную букву ('A'-'Z')",
-                    "passwordMustHaveDigits": "Пароли должны содержать хотя бы одну цифру ('0'-'9')",
-                    "passwordMustHaveSpecialCharacters": "Пароли должны содержать хотя бы один знак препинания или другой специальный символ"
+                    "passwordTooShort": "Длина паролей должна составлять {{errorParameter}} или более символов",
+                    "passwordRequiresLower": "Пароли должны содержать хотя бы одну строчную букву ('a'-'z')",
+                    "passwordRequiresUpper": "Пароли должны содержать хотя бы одну заглавную букву ('A'-'Z')",
+                    "passwordRequiresDigit": "Пароли должны содержать хотя бы одну цифру ('0'-'9')",
+                    "passwordRequiresNonAlphanumeric": "Пароли должны содержать хотя бы один знак препинания или другой специальный символ"
                 },
                 "placeholders": {
                     "new-password": "Введите новый пароль",
@@ -429,12 +432,14 @@
                     "login": "Вход",
                     "account-state": "Состояние аккаунта",
                     "account-email": "Адрес электронной почты",
-                    "locked-state": "Заблокирован"
+                    "locked-state": "Заблокирован",
+                    "status": "Статус"
                 },
                 "placeholders": {
                     "account-type": "Выбрать ...",
                     "email": "Введите адрес электронной почты",
-                    "user-name": "Введите имя пользователя"
+                    "user-name": "Введите имя пользователя",
+                    "status": "Выбрать ..."
                 }
             },
             "account-list": {
@@ -520,7 +525,8 @@
                     "remember-me": "Запомнить меня",
                     "external-sign-in": "Войти при помощи {{displayName}}",
                     "forgot-password": "Забыли пароль?",
-                    "log-in": "Войти"
+                    "log-in": "Войти",
+                    "log-in-placeholder": "Пожалуйста, введите значение"
                 }
             },
             "forgotpassword": {
@@ -618,7 +624,8 @@
                 "title": "Настройки значений"
             },
             "settingGroup-list": {
-                "title": "Настройки"
+                "title": "Настройки",
+                "bread-crumb-top": "Все настройки"
             },
             "user-profile": {
                 "title": "Профиль пользователя",

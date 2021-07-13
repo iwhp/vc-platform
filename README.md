@@ -1,5 +1,11 @@
 # Virto Commerce Platform - Extensible Ecommerce Applications
 
+[![Share on Facebook](https://img.shields.io/badge/facebook--blue.svg?style=social&label=Share&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSIyNjYuODkzcHgiIGhlaWdodD0iMjY2Ljg5NXB4IiB2aWV3Qm94PSIwIDAgMjY2Ljg5MyAyNjYuODk1IiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCAyNjYuODkzIDI2Ni44OTUiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxwYXRoIGlkPSJCbHVlXzFfIiBmaWxsPSIjM0M1QTk5IiBkPSJNMjQ4LjA4MiwyNjIuMzA3YzcuODU0LDAsMTQuMjIzLTYuMzY5LDE0LjIyMy0xNC4yMjVWMTguODEyYzAtNy44NTctNi4zNjgtMTQuMjI0LTE0LjIyMy0xNC4yMjRIMTguODEyYy03Ljg1NywwLTE0LjIyNCw2LjM2Ny0xNC4yMjQsMTQuMjI0djIyOS4yN2MwLDcuODU1LDYuMzY2LDE0LjIyNSwxNC4yMjQsMTQuMjI1SDI0OC4wODJ6Ii8%2BPHBhdGggaWQ9ImYiIGZpbGw9IiNGRkZGRkYiIGQ9Ik0xODIuNDA5LDI2Mi4zMDd2LTk5LjgwM2gzMy40OTlsNS4wMTYtMzguODk1aC0zOC41MTVWOTguNzc3YzAtMTEuMjYxLDMuMTI3LTE4LjkzNSwxOS4yNzUtMTguOTM1bDIwLjU5Ni0wLjAwOVY0NS4wNDVjLTMuNTYyLTAuNDc0LTE1Ljc4OC0xLjUzMy0zMC4wMTItMS41MzNjLTI5LjY5NSwwLTUwLjAyNSwxOC4xMjYtNTAuMDI1LDUxLjQxM3YyOC42ODRoLTMzLjU4NXYzOC44OTVoMzMuNTg1djk5LjgwM0gxODIuNDA5eiIvPjwvc3ZnPg%3D%3D)](https://www.facebook.com/sharer.php?u=https://virtocommerce.com)&nbsp;[![Tweet](https://img.shields.io/twitter/url/https/virtocommerce.com.svg?style=social)](https://twitter.com/intent/tweet?text=%23VirtoCommerce%20puts%20the%20best%20of%20MS%20Azure%20Cloud%2C%20open%20source%20.Net%20code%20and%20agile%20development%20in%20a%20single%20enterprise%20%23ecommerce%20platform.) [![Latest release](https://img.shields.io/github/release/VirtoCommerce/vc-platform.svg)](https://github.com/VirtoCommerce/vc-platform/releases/latest) [![Total downloads](https://img.shields.io/github/downloads/VirtoCommerce/vc-platform/total.svg?colorB=007ec6)](https://github.com/VirtoCommerce/vc-platform/releases) [![License](https://img.shields.io/badge/license-VC%20OSL-blue.svg)](https://virtocommerce.com/open-source-license)
+
+[![CI status](https://github.com/VirtoCommerce/vc-platform/workflows/Platform%20CI/badge.svg?branch=master)](https://github.com/VirtoCommerce/vc-platform/actions?query=workflow%3A"Platform+CI") [![Quality gate](https://sonarcloud.io/api/project_badges/measure?project=VirtoCommerce_vc-platform&metric=alert_status&branch=dev)](https://sonarcloud.io/dashboard?id=VirtoCommerce_vc-platform) [![Reliability rating](https://sonarcloud.io/api/project_badges/measure?project=VirtoCommerce_vc-platform&metric=reliability_rating&branch=dev)](https://sonarcloud.io/dashboard?id=VirtoCommerce_vc-platform) [![Security rating](https://sonarcloud.io/api/project_badges/measure?project=VirtoCommerce_vc-platform&metric=security_rating&branch=dev)](https://sonarcloud.io/dashboard?id=VirtoCommerce_vc-platform) [![Sqale rating](https://sonarcloud.io/api/project_badges/measure?project=VirtoCommerce_vc-platform&metric=sqale_rating&branch=dev)](https://sonarcloud.io/dashboard?id=VirtoCommerce_vc-platform) [![Lines of code](https://sonarcloud.io/api/project_badges/measure?project=VirtoCommerce_vc-platform&metric=ncloc&branch=dev)](https://sonarcloud.io/dashboard?id=VirtoCommerce_vc-platform)&emsp;
+
+[![Documentation](https://img.shields.io/badge/docs-read-brightgreen.svg)](https://virtocommerce.com/docs)&nbsp;[![Discourse topics](https://img.shields.io/discourse/topics?label=community&logo=community&server=http%3A%2F%2Fcommunity.virtocommerce.com)](https://community.virtocommerce.com) [![Contributors](https://img.shields.io/github/contributors/VirtoCommerce/vc-platform.svg)](https://github.com/VirtoCommerce/vc-platform/graphs/contributors)
+
 [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FVirtoCommerce%2Fvc-platform%2Fmaster%2Fazuredeploy.json)
 
 Virto Commerce is an open-source platform for an extensible e-commerce applications.
@@ -19,7 +25,7 @@ The main principle is to help the development team to focus on the implementatio
     1. *Reliability* - Can leverage a solution deployed across multiple data centers and availability zones to maximize up-time and reduce potential revenue losses.
 * **HEADLESS** – Allows an enterprise to support omnichannel journeys across traditional and digital touchpoints as well as new business models.
 * **EXTENSIBILITY** – The API model, persistence model, business logic can be extended as needed without deploying and re-deploying solution. This provides superior business agility and keeps up to date.
-* 
+
 ## Architecture Overview
 The following diagram illustrates the high-level architecture and main areas of Virto Commerce solutions:
 
@@ -46,15 +52,15 @@ In our work, we always try to use advanced technologies. Our decision to choose 
 
 We decided to use the following stack of technologies:
 
-* ASP.NET Core 3.1.0 as base platform
-* EF Core 3.1.0 as primary ORM
-* ASP.NET Core Identity 3.1.0 for authentication and authorization
-* OpenIddict 2.0.1 for OAuth authorization
-* WebPack as primary design/runtime bundler and minifier
-* Swashbuckle.AspNetCore.SwaggerGen for Swagger docs and UI
-* SignalR Core for push notifications
-* AngularJS 1.4 as primary framework for SPA
-* HangFire 1.7.8 for run background tasks
+* ASP.NET Core 3.1.0 as base platform;
+* EF Core 3.1.0 as primary ORM;
+* ASP.NET Core Identity 3.1.0 for authentication and authorization;
+* OpenIddict 2.0.1 for OAuth authorization;
+* WebPack as primary design/runtime bundler and minifier;
+* Swashbuckle.AspNetCore.SwaggerGen for Swagger docs and UI;
+* SignalR Core for push notifications;
+* AngularJS 1.4 as primary framework for SPA;
+* HangFire 1.7.8 for run background tasks.
 
 ## Introduction to Virto Commerce
 

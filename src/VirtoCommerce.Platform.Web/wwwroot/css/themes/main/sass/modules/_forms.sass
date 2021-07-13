@@ -14,6 +14,7 @@ input::-ms-clear
   color: $genericErrorColor
 fieldset
   border: none
+  margin-bottom: 10px
   legend
     border-bottom: 1px solid $baseBrd
     display: block
@@ -80,6 +81,13 @@ fieldset + fieldset
   .__link
     float: right
     margin: 4px 0 0
+.form-group .form-line
+    display: flex
+    align-items: center
+.form-group .form-line .form-line-item-250
+    display: inline-block
+    width: 250px
+    padding-right: 20px
 .form-input input,
 .form-input textarea,
 .form-input select
@@ -215,6 +223,7 @@ fieldset + fieldset
 .form-label
   display: inline-block
   font-size: 14px
+  font-weight: 500
   margin: 0 0 5px
 .form-edit
   display: inline-block
@@ -274,6 +283,14 @@ fieldset + fieldset
   position: relative
 .form-control .form-label + .form-label
   margin-left: 10px
+a.btn-ico
+  float: right
+  padding: 0 0 0 18px
+  margin: 4px 0 0 10px
+  &.check
+    background: url('/images/layout/check_circle.svg') no-repeat left center
+  &.remove
+    background: url('/images/layout/remove_circle.svg') no-repeat left center
 label.form-control
   display: inline-block
   height: 12px
@@ -302,6 +319,15 @@ label.form-control
   line-height: 1.1
   margin-bottom: 0
   vertical-align: top
+.form-control.__checkbox .form-label
+  vertical-align: bottom
+  padding-top: 3px
+.window .__required:after
+  content: " *"
+  color: #F14E4E
+.window .form-group .btn
+  margin-top: -3px
+  padding: 0 42px
 .form-control
   input
     position: absolute
@@ -347,6 +373,14 @@ label.form-control
   margin: 0 0 0 18px
   vertical-align: 2px
 
+.comment-text
+  color: $textCommentColor
+  display: flex
+  font-size: 11px
+  margin-top: 3px
+img.comment-icon
+  margin-right: 6px
+  
 /* Switch */
 .__switch
   cursor: pointer
@@ -442,6 +476,7 @@ label.form-control
   width: 100%
 
 /* Buttons */
+.btn-default,
 .btn
   background: $baseColor
   border: none;
@@ -458,7 +493,6 @@ label.form-control
   &:hover
     color: $whiteColor
     opacity: .8
-
     filter: alpha(opacity=80)
 button.btn
   padding: 0 17px

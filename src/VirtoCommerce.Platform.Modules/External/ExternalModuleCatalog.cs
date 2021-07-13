@@ -36,7 +36,7 @@ namespace VirtoCommerce.Platform.Modules
                 if (_options.ModulesManifestUrl != null)
                 {
                     var externalModuleInfos = LoadModulesManifests(_options.ModulesManifestUrl);
-                    if(!_options.ExtraModulesManifestUrls.IsNullOrEmpty())
+                    if (!_options.ExtraModulesManifestUrls.IsNullOrEmpty())
                     {
                         foreach (var extraUrl in _options.ExtraModulesManifestUrls)
                         {
@@ -48,14 +48,26 @@ namespace VirtoCommerce.Platform.Modules
                     {
                         if (!Modules.OfType<ManifestModuleInfo>().Contains(externalModuleInfo))
                         {
-                            var alreadyInstalledModule = _installedModules.OfType<ManifestModuleInfo>().FirstOrDefault(x => x.Equals(externalModuleInfo));
+                            var doAddModule = true;
+                            var alreadyInstalledModule = _installedModules.OfType<ManifestModuleInfo>().FirstOrDefault(x => x.Id == externalModuleInfo.Id);
                             if (alreadyInstalledModule != null)
                             {
-                                externalModuleInfo.IsInstalled = alreadyInstalledModule.IsInstalled;
-                                externalModuleInfo.Errors.AddRange(alreadyInstalledModule.Errors);
+                                if (externalModuleInfo.Equals(alreadyInstalledModule))
+                                {
+                                    externalModuleInfo.IsInstalled = alreadyInstalledModule.IsInstalled;
+                                    externalModuleInfo.Errors.AddRange(alreadyInstalledModule.Errors);
+                                }
+                                else if (alreadyInstalledModule.Version > externalModuleInfo.Version)
+                                {
+                                    doAddModule = false;
+                                }
                             }
-                            externalModuleInfo.InitializationMode = InitializationMode.OnDemand;
-                            AddModule(externalModuleInfo);
+
+                            if (doAddModule)
+                            {
+                                externalModuleInfo.InitializationMode = InitializationMode.OnDemand;
+                                AddModule(externalModuleInfo);
+                            }
                         }
                     }
                 }
@@ -126,9 +138,9 @@ namespace VirtoCommerce.Platform.Modules
             {
                 throw new ArgumentNullException(nameof(manifestUrl));
             }
-            
+
             var result = new List<ManifestModuleInfo>();
-            
+
             _logger.LogDebug("Download module manifests from " + manifestUrl);
 
             using (var stream = _externalClient.OpenRead(manifestUrl))
@@ -140,32 +152,23 @@ namespace VirtoCommerce.Platform.Modules
                     {
                         if (manifest.Versions != null)
                         {
-                            //Select from all versions of module the latest compatible by semVer with the current platform version.
-                            var latestStablePlatformCompatibleVersion = manifest.Versions.OrderByDescending(x => x.SemanticVersion)
-                                                                           .FirstOrDefault(x => x.PlatformSemanticVersion.IsCompatibleWithBySemVer(PlatformVersion.CurrentVersion)
-                                                                                                && string.IsNullOrEmpty(x.VersionTag));
-                            if (latestStablePlatformCompatibleVersion != null)
+                            //!!!DO NOT REFACTOR!!!
+                            //load single the latest stable version for  a module that has exactly the same major version as the current platform
+                            var latestCompatibleStable = GetLatestCompatibleWithPlatformVersion(manifest, false);
+                            if (latestCompatibleStable != null)
                             {
-                                var moduleInfo = AbstractTypeFactory<ManifestModuleInfo>.TryCreateInstance();
-                                moduleInfo.LoadFromExternalManifest(manifest, latestStablePlatformCompatibleVersion);
-                                result.Add(moduleInfo);
+                                result.Add(latestCompatibleStable);
                             }
 
                             if (_options.IncludePrerelease)
                             {
-                                //Select from all versions of module the latest compatible by semVer with the current platform version.
-                                var latestPrereleasePlatformCompatibleVersion = manifest.Versions.OrderByDescending(x => x.SemanticVersion)
-                                                                               .FirstOrDefault(x => x.PlatformSemanticVersion.IsCompatibleWithBySemVer(PlatformVersion.CurrentVersion)
-                                                                                                    && (!string.IsNullOrEmpty(x.VersionTag) && _options.IncludePrerelease));
-                                if (latestPrereleasePlatformCompatibleVersion != null)
+                                //load single the latests prerelease version for a module that have exactly the same major version as the current platform
+                                var latestCompatiblePrerelease = GetLatestCompatibleWithPlatformVersion(manifest, true);
+                                if (latestCompatiblePrerelease != null)
                                 {
-                                    var moduleInfo = AbstractTypeFactory<ManifestModuleInfo>.TryCreateInstance();
-                                    moduleInfo.LoadFromExternalManifest(manifest, latestPrereleasePlatformCompatibleVersion);
-                                    result.Add(moduleInfo);
+                                    result.Add(latestCompatiblePrerelease);
                                 }
                             }
-
-
                         }
                         else
                         {
@@ -177,7 +180,24 @@ namespace VirtoCommerce.Platform.Modules
 
             return result;
         }
+        /// <summary>
+        /// Get the  new ManifestModuleInfo for module version that has exactly the same major version as the current platform
+        /// </summary>
+        private ManifestModuleInfo GetLatestCompatibleWithPlatformVersion(ExternalModuleManifest manifest, bool prerelease)
+        {
+            ManifestModuleInfo result = null;
+            var latestCompatibleManifest = manifest.Versions
+                .OrderByDescending(x => x.SemanticVersion)
+                .Where(x => x.PlatformSemanticVersion.Major == PlatformVersion.CurrentVersion.Major)
+                .FirstOrDefault(x => string.IsNullOrEmpty(x.VersionTag) != prerelease);
 
+            if (latestCompatibleManifest != null)
+            {
+                result = AbstractTypeFactory<ManifestModuleInfo>.TryCreateInstance();
+                result.LoadFromExternalManifest(manifest, latestCompatibleManifest);
+            }
+            return result;
+        }
 
         protected override void ValidateDependencyGraph()
         {
@@ -202,6 +222,5 @@ namespace VirtoCommerce.Platform.Modules
                 }
             }
         }
-
     }
 }

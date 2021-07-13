@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using VirtoCommerce.Platform.Core.Modularity;
 using VirtoCommerce.Platform.Core.Settings;
+using VirtoCommerce.Platform.DistributedLock;
 using VirtoCommerce.Platform.Web.Licensing;
 using static VirtoCommerce.Platform.Core.PlatformConstants.Settings;
 
@@ -19,12 +20,12 @@ namespace VirtoCommerce.Platform.Web.Extensions
             settingsRegistrar.RegisterSettingsForType(UserProfile.AllSettings, typeof(UserProfile).Name);
 
             var settingsManager = appBuilder.ApplicationServices.GetRequiredService<ISettingsManager>();
-            
+
             var sendDiagnosticData = settingsManager.GetValue(Setup.SendDiagnosticData.Name, (bool)Setup.SendDiagnosticData.DefaultValue);
             if (!sendDiagnosticData)
             {
                 var licenseProvider = appBuilder.ApplicationServices.GetRequiredService<LicenseProvider>();
-                var license = licenseProvider.GetLicense();
+                var license = licenseProvider.GetLicenseAsync().GetAwaiter().GetResult();
 
                 if (license == null || license.ExpirationDate < DateTime.UtcNow)
                 {
@@ -60,6 +61,19 @@ namespace VirtoCommerce.Platform.Web.Extensions
                 .OfType<ManifestModuleInfo>()
                 .Where(x => x.State == ModuleState.Initialized && !x.Errors.Any())
                 .ToArray();
+        }
+
+        /// <summary>
+        /// Run specified payload in sync between several instances
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="payload"></param>
+        /// <returns></returns>
+        public static IApplicationBuilder ExecuteSynhronized(this IApplicationBuilder app, Action payload)
+        {
+            var distributedLockProvider = app.ApplicationServices.GetRequiredService<IDistributedLockProvider>();
+            distributedLockProvider.ExecuteSynhronized(nameof(Startup), (x) => payload());
+            return app;
         }
     }
 

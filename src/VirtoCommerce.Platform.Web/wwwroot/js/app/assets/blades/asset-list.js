@@ -27,8 +27,6 @@ angular.module('platformWebApp')
 
                         //Set navigation breadcrumbs
                         setBreadcrumbs();
-                    }, function (error) {
-                        bladeNavigationService.setError('Error ' + error.status, blade);
                     });
             };
 
@@ -45,7 +43,7 @@ angular.module('platformWebApp')
                     }
                     blade.breadcrumbs = breadcrumbs;
                 } else {
-                    blade.breadcrumbs = [generateBreadcrumb(blade.currentEntity.url, 'all')];
+                    blade.breadcrumbs = [generateBreadcrumb(blade.currentEntity.url, 'platform.blades.asset-list.bread-crumb-top')];
                 }
             }
 
@@ -136,11 +134,12 @@ angular.module('platformWebApp')
                 }
             };
 
-            blade.headIcon = 'fa-folder-o';
+            blade.headIcon = 'fa fa-folder-o';
 
             blade.toolbarCommands = [
                 {
                     name: "platform.commands.refresh", icon: 'fa fa-refresh',
+                    title: "platform.commands.titles.refresh",
                     executeMethod: blade.refresh,
                     canExecuteMethod: function () {
                         return true;
@@ -148,6 +147,7 @@ angular.module('platformWebApp')
                 },
                 {
                     name: "platform.commands.new-folder", icon: 'fa fa-folder-o',
+                    title: "platform.commands.titles.new-folder",
                     executeMethod: function () { newFolder(); },
                     canExecuteMethod: function () {
                         return true;
@@ -156,6 +156,7 @@ angular.module('platformWebApp')
                 },
                 {
                     name: "platform.commands.upload", icon: 'fa fa-upload',
+                    title: "platform.commands.titles.upload",
                     executeMethod: function () {
                         var newBlade = {
                             id: "assetUpload",
@@ -180,14 +181,14 @@ angular.module('platformWebApp')
                 //    permission: 'platform:asset:update'
                 //},
                 {
-                    name: "platform.commands.delete", icon: 'fa fa-trash-o',
+                    name: "platform.commands.delete", icon: 'fas fa-trash-alt',
                     executeMethod: function () { deleteList($scope.gridApi.selection.getSelectedRows()); },
                     canExecuteMethod: isItemsChecked,
                     permission: 'platform:asset:delete'
                 }
                 //{
                 //    name: "Cut",
-                //    icon: 'fa fa-cut',
+                //    icon: 'fas fa-cut',
                 //    executeMethod: function () {
                 //    },
                 //    canExecuteMethod: isItemsChecked,
@@ -195,7 +196,7 @@ angular.module('platformWebApp')
                 //},
                 //{
                 //    name: "Paste",
-                //    icon: 'fa fa-clipboard',
+                //    icon: 'fas fa-paste',
                 //    executeMethod: function () {
                 //        blade.isLoading = true;
                 //        assets.move({

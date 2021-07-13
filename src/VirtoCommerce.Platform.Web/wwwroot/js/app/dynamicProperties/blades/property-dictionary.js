@@ -1,7 +1,7 @@
 angular.module('platformWebApp').controller('platformWebApp.propertyDictionaryController', ['$scope', 'platformWebApp.dialogService', 'platformWebApp.bladeNavigationService', 'platformWebApp.settings', 'platformWebApp.dynamicProperties.dictionaryItemsApi', function ($scope, dialogService, bladeNavigationService, settings, dictionaryItemsApi) {
     var blade = $scope.blade;
     blade.updatePermission = 'platform:dynamic_properties:update';
-    blade.headIcon = 'fa-plus-square-o';
+    blade.headIcon = 'far fa-plus-square';
     blade.title = 'platform.blades.property-dictionary.title';
     blade.subtitle = 'platform.blades.property-dictionary.subtitle';
 
@@ -156,7 +156,7 @@ angular.module('platformWebApp').controller('platformWebApp.propertyDictionaryCo
 
     blade.toolbarCommands = [
         {
-            name: "platform.commands.save", icon: 'fa fa-save',
+            name: "platform.commands.save", icon: 'fas fa-save',
             executeMethod: function () {
                 $scope.saveChanges();
             },
@@ -174,7 +174,7 @@ angular.module('platformWebApp').controller('platformWebApp.propertyDictionaryCo
             permission: blade.updatePermission
         },
         {
-            name: "platform.commands.delete", icon: 'fa fa-trash-o',
+            name: "platform.commands.delete", icon: 'fas fa-trash-alt',
             executeMethod: function () {
                 deleteChecked();
             },

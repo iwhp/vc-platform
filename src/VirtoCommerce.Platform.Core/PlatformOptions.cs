@@ -11,26 +11,33 @@ namespace VirtoCommerce.Platform.Core
         [Required]
         public string LocalUploadFolderPath { get; set; } = "app_data/uploads";
 
-        //The public url for license activation
+        //The public URL for license activation
         [Url]
         public string LicenseActivationUrl { get; set; } = "https://virtocommerce.com/admin/api/licenses/activate/";
 
         //Local path for license file
         public string LicenseFilePath { get; set; } = "app_data/VirtoCommerce.lic";
 
-        //Local path to public key for license 
-        public string LicensePublicKeyPath { get; set; } = "app_data/VirtoCommerce_rsa.pub";
+        //Name of the license file with blob container
+        public string LicenseBlobPath { get; set; } = "license/VirtoCommerce.lic";
+
+        //Name of the public key embedded resource
+        public string LicensePublicKeyResourceName { get; set; } = "VirtoCommerce_rsa.pub";
 
         //Local path to private key for signing license
         public string LicensePrivateKeyPath { get; set; }
 
-        //Url for discovery sample data for initial installation
+        //Local path for countries list
+        public string CountriesFilePath { get; set; } = "localization/common/countries.json";
+        public string CountryRegionsFilePath { get; set; } = "localization/common/countriesRegions.json";
+
+        //URL for discovery sample data for initial installation
         //e.g. http://virtocommerce.blob.core.windows.net/sample-data
         [Url]
         public string SampleDataUrl { get; set; }
 
-        //Default path to store export files 
-        public string DefaultExportFolder { get; set; } = "app_data/export/";
+        //Default path to store export files
+        public string DefaultExportFolder { get; set; } = "app_data/export";
 
         public string DefaultExportFileName { get; set; } = "exported_{0:yyyyMMddHHmmss}.zip";
 
@@ -42,5 +49,4 @@ namespace VirtoCommerce.Platform.Core
         //mitigate man-in-the-middle attacks.
         public bool AllowInsecureHttp { get; set; }
     }
-
 }

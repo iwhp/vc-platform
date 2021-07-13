@@ -61,7 +61,7 @@ angular.module('platformWebApp').controller('platformWebApp.oAuthAppsController'
         dialogService.showConfirmationDialog(dialog);
     }
 
-    blade.headIcon = 'fa-key';
+    blade.headIcon = 'fas fa-key';
 
     blade.toolbarCommands = [
         {
@@ -81,7 +81,7 @@ angular.module('platformWebApp').controller('platformWebApp.oAuthAppsController'
             permission: blade.updatePermission
         },
         {
-            name: "platform.commands.delete", icon: 'fa fa-trash-o',
+            name: "platform.commands.delete", icon: 'fas fa-trash-alt',
             executeMethod: deleteEntry,
             canExecuteMethod: function () {
                 return !blade.isNew;
@@ -116,7 +116,7 @@ angular.module('platformWebApp').controller('platformWebApp.oAuthAppsController'
             updatePermission: 'platform:security:update',
             data: blade.currentEntity.redirectUris,
             validator: validators.uriWithoutQuery,
-            headIcon: 'fa-plus-square-o',
+            headIcon: 'far fa-plus-square',
             title: 'platform.blades.oauthapps-detail.blades.edit-redirectUris.title',
             subtitle: 'platform.blades.oauthapps-detail.blades.edit-redirectUris.subtitle',
             controller: 'platformWebApp.editArrayController',
@@ -135,7 +135,7 @@ angular.module('platformWebApp').controller('platformWebApp.oAuthAppsController'
             updatePermission: 'platform:security:update',
             data: blade.currentEntity.postLogoutRedirectUris,
             validator: validators.uriWithoutQuery,
-            headIcon: 'fa-plus-square-o',
+            headIcon: 'far fa-plus-square',
             title: 'platform.blades.oauthapps-detail.blades.edit-postLogoutRedirectUris.title',
             subtitle: 'platform.blades.oauthapps-detail.blades.edit-postLogoutRedirectUris.subtitle',
             controller: 'platformWebApp.editArrayController',

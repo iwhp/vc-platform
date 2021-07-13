@@ -1,7 +1,7 @@
 angular.module('platformWebApp')
     .controller('platformWebApp.exportImport.exportMainController', ['$scope', 'platformWebApp.bladeNavigationService', 'platformWebApp.exportImport.resource', 'platformWebApp.authService', 'platformWebApp.toolbarService', function ($scope, bladeNavigationService, exportImportResourse, authService, toolbarService) {
         var blade = $scope.blade;
-        blade.headIcon = 'fa-upload';
+        blade.headIcon = 'fa fa-upload';
         blade.title = 'platform.blades.export-main.title';
 
         $scope.exportRequest = {};
@@ -31,7 +31,7 @@ angular.module('platformWebApp')
             $scope.exportRequest.modules = _.pluck(selection, 'id');
         };
 
-        $scope.startExport = function () {
+        var startExport = function () {
             blade.isLoading = true;
             exportImportResourse.runExport($scope.exportRequest,
                 function (data) {
@@ -56,12 +56,17 @@ angular.module('platformWebApp')
 
         blade.toolbarCommands = [
             {
-                name: "platform.commands.select-all", icon: 'fa fa-check-square-o',
+                name: "platform.commands.start-export", icon: 'fa fa-upload',
+                executeMethod: function () { startExport() },
+                canExecuteMethod: function () { return $scope.canStartProcess() && !blade.notification; }
+            },
+            {
+                name: "platform.commands.select-all", icon: 'far fa-check-square',
                 executeMethod: function () { selectAll(true) },
                 canExecuteMethod: function () { return $scope.exportRequest.exportManifest && !blade.notification; }
             },
             {
-                name: "platform.commands.unselect-all", icon: 'fa fa-square-o',
+                name: "platform.commands.unselect-all", icon: 'far fa-square',
                 executeMethod: function () { selectAll(false) },
                 canExecuteMethod: function () { return $scope.exportRequest.exportManifest && !blade.notification; }
             }

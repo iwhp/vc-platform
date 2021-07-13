@@ -1,22 +1,24 @@
-using System.Threading;
 using Hangfire.Client;
 using Hangfire.Server;
-using Microsoft.AspNetCore.Http;
+using VirtoCommerce.Platform.Core.Security;
 using static VirtoCommerce.Platform.Core.Common.ThreadSlotNames;
 
 namespace VirtoCommerce.Platform.Hangfire.Middleware
 {
     /// <summary>
-    /// This class allow to process all hangifre jobs to add user name from identity and save it to
-    /// the Thread after job is perfoming to achieve getting access to user name in background tasks
+    /// This class allow to process all HangFire jobs to add user name from identity and save it to
+    /// the Thread after job is performing to achieve getting access to user name in background tasks
     /// </summary>
     public class HangfireUserContextMiddleware : IClientFilter, IServerFilter
     {
-        private readonly IHttpContextAccessor _contextAccessor;
+        private readonly IUserNameResolver _userNameResolver;
 
-        public HangfireUserContextMiddleware(IHttpContextAccessor contextAccessor) => _contextAccessor = contextAccessor;
+        public HangfireUserContextMiddleware(IUserNameResolver userNameResolver)
+        {
+            _userNameResolver = userNameResolver;
+        }
 
-        private string ContextUserName => _contextAccessor?.HttpContext?.User?.Identity?.Name;
+        private string ContextUserName => _userNameResolver.GetCurrentUserName();
 
         #region IClientFilter Members
 
@@ -41,7 +43,7 @@ namespace VirtoCommerce.Platform.Hangfire.Middleware
         {
             var userName = filterContext.GetJobParameter<string>(USER_NAME);
 
-            Thread.SetData(Thread.GetNamedDataSlot(USER_NAME), userName);
+            _userNameResolver.SetCurrentUserName(userName);
         }
 
         public void OnPerformed(PerformedContext filterContext)
